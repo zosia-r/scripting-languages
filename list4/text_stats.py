@@ -24,7 +24,7 @@ def analyze_file(file_path):
         most_common_word
     ]
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     input_path = sys.stdin.readline().strip()
     stats = analyze_file(input_path)
 
