@@ -33,7 +33,7 @@ def find_files_by_extensions(directory, extensions):
 def get_output_directory():
     return os.environ.get("CONVERTED_DIR", os.path.join(os.getcwd(), "converted"))
 
-def log_conversion(timestamp, input_file, output_format, output_file):
+def log_conversion(timestamp, input_file, output_format, output_file, tool):
 
     history_file = os.path.join(get_output_directory(), 'history.csv')
     
@@ -41,7 +41,8 @@ def log_conversion(timestamp, input_file, output_format, output_file):
         'timestamp': timestamp,
         'input_file': input_file,
         'output_format': output_format,
-        'output_file': output_file
+        'output_file': output_file,
+        'tool': tool
     }
     
     fieldnames = record.keys()
