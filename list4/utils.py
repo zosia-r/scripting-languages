@@ -38,7 +38,7 @@ def log_conversion(timestamp, input_file, output_format, output_file):
     history_file = os.path.join(get_output_directory(), 'history.csv')
     
     record = {
-        'datetime': timestamp,
+        'timestamp': timestamp,
         'input_file': input_file,
         'output_format': output_format,
         'output_file': output_file
