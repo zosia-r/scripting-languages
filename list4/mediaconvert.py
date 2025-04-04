@@ -1,5 +1,3 @@
-# LOGGING KOLEJNOSC ATRYBUTOW I PODWÓJNA KROPA
-
 import os
 import sys
 import json
