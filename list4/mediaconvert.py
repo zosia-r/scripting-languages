@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 import subprocess
 from datetime import datetime
 from utils import find_media_files, find_image_files, get_output_directory, log_conversion
@@ -37,7 +36,7 @@ def file_loop(file_list, output_dir, output_format, subprocess_tool):
 
 
 def convert_media(input_dir, output_format):
-    
+
     media_files = find_media_files(input_dir)
     image_files = find_image_files(input_dir)
     output_dir = get_output_directory()
