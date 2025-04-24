@@ -3,10 +3,10 @@ from pathlib import Path
 
 
 def group_measurement_files_by_key(path):
-    pattern = re.compile(r"^(19\d{2}|20[0-2][0-5])_([A-Za-z0-9\(\)]+)_([0-9]+[HhDdGgYy])\.csv$")
+    pattern = re.compile(r"^(19\d{2}|20[0-2][0-5])_([\w\s\d\-\(\)]+)_([0-9]+[HhDdGgYy])\.csv$")
     # ^ i $ = początek i koniec
     # (19\d{2}|20[0-2]\d) = rok 1900-2025
-    # [A-Za-z0-9\(\)]+ = nazwa parametru (litery, cyfry, nawiasy)
+    # [\w\s\d\-\(\)]+ = parametr (litery, cyfry, spacje, myślniki, nawiasy)
     # [0-9]+[HhDdGgYy] = częstotliwość (cyfry + jednostka)
     # \.csv$ = końcówka .csv
 
