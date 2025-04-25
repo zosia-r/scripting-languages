@@ -142,7 +142,7 @@ def random_station(file, df):
     
     station = random.choice(stations)
     name, address = get_station_info(station)
-    logging.info(f"Random station: {name}, Address: {address}")
+    print(f"Random station: {name}, Address: {address}")
 
 
 def statistics(df, station, file):
