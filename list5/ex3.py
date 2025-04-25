@@ -15,9 +15,9 @@ def get_addresses(path, city):
 
     for data in stations.values():
         if data['Miejscowość'].strip().lower() == city.strip().lower():
-            woj = data.get('Województwo')
-            miasto = data.get('Miejscowość')
-            adres = data.get('Adres')
+            woj = data.get('Województwo', '')
+            miasto = data.get('Miejscowość', '')
+            adres = data.get('Adres', '')
 
             match = pattern.search(adres)
             if match:
