@@ -16,7 +16,6 @@ def anomaly(time, value, station, unit, missing_percentage=0.02, zero_percentage
     count_0 = value.count(0)
 
     array = np.array([v for v in value if v is not None and v > 0], dtype=float)
-    array = array[~np.isnan(array)]
     
     if len(array) >= 2:
         max_percentage_change = np.max(np.abs(np.diff(array) / array[:-1])) * 100
@@ -43,7 +42,7 @@ def anomaly(time, value, station, unit, missing_percentage=0.02, zero_percentage
             print(f'\t NaN values: {count_nan} ({count_nan/count_values*100:.3f}%)')
         if count_0 > 0.02*count_values:
             print(f'\t 0 values: {count_0} ({count_0/count_values*100:.3f}%)')
-        if max_percentage_change > 100:
+        if max_percentage_change > max_change:
             print(f'\t Max percentage change: {max_percentage_change:.2f}%')
         if time_anomaly:
             print(f'\t Irregular time intervals detected: {len(set(time_diffs))} unique intervals: {set(time_diffs)}')

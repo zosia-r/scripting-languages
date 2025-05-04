@@ -6,7 +6,7 @@ def get_addresses(path, city):
     pattern = re.compile(r'ul\.\s*([\w\s\-]+?)(?:[,\s]+(\d+\w?))?$')
     # ul\. = ul.
     # \s* = zero lub więcej spacji
-    # ([\w\s\-]+?) = nazwa ulicy (litery, cyfry, spacje, myślniki)
+    # ([\w\s\-]+?) = nazwa ulicy (litery, spacje, myślniki)
     # (?:[,\s]+(\d+\w?))? = numer ulicy (opcjonalny), może być z literą na końcu
 
     addresses = []
@@ -15,18 +15,18 @@ def get_addresses(path, city):
 
     for data in stations.values():
         if data['Miejscowość'].strip().lower() == city.strip().lower():
-            woj = data.get('Województwo', '')
-            miasto = data.get('Miejscowość', '')
-            adres = data.get('Adres', '')
+            voiv = data.get('Województwo', '')
+            city = data.get('Miejscowość', '')
+            address = data.get('Adres', '')
 
-            match = pattern.search(adres)
+            match = pattern.search(address)
             if match:
                     ulica = match.group(1).strip()
                     if match.group(2):
                         numer = match.group(2).strip()
-                        addresses.append((woj, miasto, ulica, numer))
+                        addresses.append((voiv, city, ulica, numer))
                     else:
-                        addresses.append((woj, miasto, ulica, None))
+                        addresses.append((voiv, city, ulica, None))
 
     return addresses
 

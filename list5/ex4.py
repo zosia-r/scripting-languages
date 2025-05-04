@@ -1,11 +1,9 @@
-import csv
 import re
-import unicodedata
 from pathlib import Path
 from ex1 import parse_stations
 
 date_pattern = re.compile(r'^(19\d{2}|20[0-2][0-5])-(0[1-9]|1[0-2])-([0-2]\d|3[0-1])$')
-coord_pattern = re.compile(r'^\d{2}\.\d{6}$')
+coord_pattern = re.compile(r'^\d\.\d{6}$')
 dash_pattern= re.compile(r'.+-.+')
 triple_pattern = re.compile(r'[^-]+-[^-]+-[^-]+')
 pattern_comma_street = re.compile(r",.*\b(ul\.|al\.)")
