@@ -45,3 +45,13 @@ class TimeSeries:
         else:
             raise TypeError('Key must be of type int, slice, datetime.date or datetime.datetime')
         
+
+    @property
+    def mean(self):
+        return np.mean(self.values) if self.values else None
+    
+    @property
+    def stddev(self):
+        return np.std(self.values) if self.values else None
+    
+        
