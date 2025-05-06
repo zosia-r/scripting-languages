@@ -28,8 +28,10 @@ class TimeSeries:
         return self.indicator == other.indicator and self.station_code == other.station_code and self.time_averaging == other.time_averaging and self.unit == other.unit
     
     def __getitem__(self, key):
-        if isinstance(key, int) or isinstance(key, slice):
+        if isinstance(key, int):
             return (self.date_list[key], self.values[key])
+        elif isinstance(key, slice):
+            return zip(self.date_list[key], self.values[key])
 
         elif isinstance(key, datetime) or isinstance(key, date):
             results = []
