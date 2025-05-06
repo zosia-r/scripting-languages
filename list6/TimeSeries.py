@@ -19,10 +19,10 @@ class TimeSeries:
         self.unit = unit
 
     def __str__(self) -> str:
-        return f'TimeSeries:\nIndicator: {self.indicator}, Station code: {self.station_code}, Time averaging: {self.time_averaging}, Unit: {self.unit}\nDates: {self.date_list}\nValues: {self.values}'
+        return f'TimeSeries:\nIndicator: {self.indicator}, Station code: {self.station_code}, Time averaging: {self.time_averaging}, Unit: {self.unit}\nDates[:10]: {self.date_list[:10]}\nValues[:10]: {self.values[:10]}\n'
     
     def __repr__(self) -> str:
-        return f'TimeSeries(indicator={self.indicator}, station_code={self.station_code}, time_averaging={self.time_averaging}, date_list={self.date_list}, values={self.values}, unit={self.unit})'
+        return f'TimeSeries(indicator={self.indicator}, station_code={self.station_code}, time_averaging={self.time_averaging}, date_list={self.date_list}, values={self.values}, unit={self.unit}\n)'
     
     def __eq__(self, other) -> bool:
         return self.indicator == other.indicator and self.station_code == other.station_code and self.time_averaging == other.time_averaging and self.unit == other.unit

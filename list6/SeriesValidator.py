@@ -66,23 +66,3 @@ class ThresholdDetector(SeriesValidator):
                 messages.append(f'Threshold of {self.threshold} exceeded at {pair[0]}: {pair[1]}')
         
         return messages
-    
-
-if __name__ == '__main__':
-    # Example usage
-    from datetime import datetime
-    ts = TimeSeries('Temperature', 'Station1', 1.0, 
-                    [datetime(2023, 1, 1), datetime(2023, 1, 2), 
-                     datetime(2023, 1, 3), datetime(2023, 1, 4), 
-                     datetime(2023, 1, 5), datetime(2023, 1, 6)],
-                    [10000.0, 15.0, 20.0, 0.0, 0.0, 35.0], 'C')
-            
- 
-    outlier_detector = OutlierDetector(threshold=2.0)
-    print(outlier_detector.analyze(ts))
-
-    zero_spike_detector = ZeroSpikeDetector(threshold=2.0)
-    print(zero_spike_detector.analyze(ts))
-
-    threshold_detector = ThresholdDetector(threshold=10.0)
-    print(threshold_detector.analyze(ts))
