@@ -44,12 +44,13 @@ def run_validators(series: List[TimeSeries], validators: List[SeriesValidator]) 
     results = {}
 
     for ts in series:
-        key = f'Station: {ts.station_code}, Indicator: {ts.indicator}, Unit: {ts.unit}, Time Averaging: {ts.time_averaging}'
-        results[key] = []
-        for validator in validators:
-            messages = validator.analyze(ts)
-            if messages:
-                results[key].extend(messages)
+        if ts is not None:
+            key = f'Station: {ts.station_code}, Indicator: {ts.indicator}, Unit: {ts.unit}, Time Averaging: {ts.time_averaging}'
+            results[key] = []
+            for validator in validators:
+                messages = validator.analyze(ts)
+                if messages:
+                    results[key].extend(messages)
 
     return results
 
@@ -58,7 +59,7 @@ if __name__ == "__main__":
 
     warnings.filterwarnings("ignore")
 
-    path = 'C:/Users/Zofia/Desktop/ist/IV/js/laby/scripting-languages/list5/measurements'
+    path = 'C:\\Users\\alicj\\Documents\\Studia\\Python\\scripting-languages\\list5\\measurements'
 
     series = parse_timeseries(path)
 

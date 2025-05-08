@@ -137,7 +137,7 @@ def random_station(file, df):
     del stations[0]
 
     if not stations:
-        logging.warning("No stations satisfying the criteria.")
+        print("No stations satisfying the criteria.")
         return
     
     station = random.choice(stations)

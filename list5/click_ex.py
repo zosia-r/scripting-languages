@@ -9,6 +9,7 @@ import click
 @click.option('-f', '--frequency', required=True, type=click.Choice(['1g', '24g']), help='Measurement frequency')
 @click.option('-s', '--start', required=True, help='Start date (yyyy-mm-dd)')
 @click.option('-e', '--end', required=True, help='End date (yyyy-mm-dd)')
+
 @click.pass_context
 def cli(ctx, parameter, frequency, start, end):
     ctx.ensure_object(dict)

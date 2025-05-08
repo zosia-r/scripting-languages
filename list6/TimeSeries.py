@@ -50,10 +50,10 @@ class TimeSeries:
 
     @property
     def mean(self):
-        return np.mean(self.values) if self.values else None
+        return np.nanmean(self.values) if self.values else None
     
     @property
     def stddev(self):
-        return np.std(self.values) if self.values else None
+        return np.nanstd(self.values) if self.values else None
     
         
