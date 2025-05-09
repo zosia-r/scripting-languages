@@ -2,6 +2,7 @@ from TimeSeries import TimeSeries
 
 import abc
 from typing import List
+from datetime import datetime, timedelta
 
 
 
@@ -66,3 +67,32 @@ class ThresholdDetector(SeriesValidator):
                 messages.append(f'Threshold of {self.threshold} exceeded at {pair[0]}: {pair[1]}')
         
         return messages
+    
+
+class CompositeValidator(SeriesValidator):
+    def __init__(self, validators: List[SeriesValidator], mode: str = 'OR'):
+        if mode.upper() not in ('OR', 'AND'):
+            raise ValueError("mode must be 'OR' or 'AND'")
+        self.validators = validators
+        self.mode = mode.upper()
+
+    def analyze(self, series: TimeSeries) -> List[str]:
+        all_messages = [validator.analyze(series) for validator in self.validators]
+
+        print(all_messages)
+
+        match self.mode:
+            case 'OR':
+                return [msg for messages in all_messages for msg in messages if messages]
+
+            case 'AND':
+                return self._get_common_messages(all_messages)
+        
+    def _get_common_messages(self, all_messages: List[List[str]]) -> List[str]:
+        if not all_messages:
+            return []
+
+        common = set(all_messages[0])
+        for messages in all_messages[1:]:
+            common &= set(messages)
+        return list(common)

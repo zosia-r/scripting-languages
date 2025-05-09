@@ -1,8 +1,7 @@
 from TimeSeries import TimeSeries
-from SeriesValidator import SeriesValidator, OutlierDetector, ZeroSpikeDetector, ThresholdDetector
+from SeriesValidator import SeriesValidator, OutlierDetector, ZeroSpikeDetector, ThresholdDetector, CompositeValidator
 from typing import List, Dict
 import os
-import warnings
 import pandas as pd
 
 def parse_timeseries(file_path: str):
@@ -37,9 +36,6 @@ def parse_timeseries(file_path: str):
             
                 
 
-
-
-
 def run_validators(series: List[TimeSeries], validators: List[SeriesValidator]) -> Dict[str, List[str]]:
     results = {}
 
@@ -53,30 +49,3 @@ def run_validators(series: List[TimeSeries], validators: List[SeriesValidator]) 
                     results[key].extend(messages)
 
     return results
-
-
-if __name__ == "__main__":
-
-    warnings.filterwarnings("ignore")
-
-    path = 'C:\\Users\\alicj\\Documents\\Studia\\Python\\scripting-languages\\list5\\measurements'
-
-    series = parse_timeseries(path)
-
-    validators = [
-        OutlierDetector(threshold=15),
-        ZeroSpikeDetector(threshold=24),
-        ThresholdDetector(threshold=1000)
-    ]
-
-    results = run_validators(series, validators)
-    
-    for key, messages in results.items():
-        print(f"Results for {key}:")
-        if messages:
-            for message in messages:
-                print(f"  - {message}")
-        else:
-            print("  - No anomalies detected.")
-        print()
-    print("Validation complete.")
