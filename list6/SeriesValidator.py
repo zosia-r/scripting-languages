@@ -77,13 +77,15 @@ class CompositeValidator(SeriesValidator):
         self.mode = mode.upper()
 
     def analyze(self, series: TimeSeries) -> List[str]:
-        all_messages = [validator.analyze(series) for validator in self.validators]
-
-        print(all_messages)
+        all_messages = []
+        for validator in self.validators:
+            messages = validator.analyze(series)
+            if messages:
+                all_messages.extend(messages)
 
         match self.mode:
             case 'OR':
-                return [msg for messages in all_messages for msg in messages if messages]
+                return self._get_all_messages(all_messages)
 
             case 'AND':
                 return self._get_common_messages(all_messages)
@@ -92,7 +94,28 @@ class CompositeValidator(SeriesValidator):
         if not all_messages:
             return []
 
-        common = set(all_messages[0])
-        for messages in all_messages[1:]:
-            common &= set(messages)
+        common = set()
+
+        sublist1 = all_messages[0]
+        if not sublist1:
+            return []
+        
+        for item in sublist1:
+            present = True
+            for sublist in all_messages[1:]:
+                if item not in sublist:
+                    present = False
+                    break
+            if present:
+                common.add(item)
+
         return list(common)
+
+    
+    def _get_all_messages(self, all_messages: List[str]) -> List[str]:
+        if not all_messages:
+            return []
+        
+        flat_messages = [item for sublist in all_messages for item in sublist]
+        all = set(flat_messages)
+        return list(all)
