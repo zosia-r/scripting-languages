@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     warnings.filterwarnings("ignore")
 
-    path = 'C:\\Users\\alicj\\Documents\\Studia\\Python\\scripting-languages\\list5\\measurements'
+    path = '../list5/measurements'
 
     series = parse_timeseries(path)
 
