@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 from datetime import datetime, date
 import numpy as np
 
@@ -10,13 +10,13 @@ class TimeSeries:
                   time_averaging: float, 
                   date_list: List[datetime], 
                   values: Union[List[Optional[float]], np.ndarray], 
-                  unit: Optional[str] = None):
-        self.indicator = indicator
-        self.station_code = station_code
-        self.time_averaging = time_averaging
-        self.date_list = date_list
-        self.values = values
-        self.unit = unit
+                  unit: Optional[str] = None) -> None:
+        self.indicator: str = indicator
+        self.station_code: str = station_code
+        self.time_averaging: float = time_averaging
+        self.date_list: List[datetime] = date_list
+        self.values: Union[List[Optional[float]], np.ndarray] = values
+        self.unit: Optional[str] = unit
 
     def __str__(self) -> str:
         return f'TimeSeries:\nIndicator: {self.indicator}, Station code: {self.station_code}, Time averaging: {self.time_averaging}, Unit: {self.unit}\nDates[:10]: {self.date_list[:10]}\nValues[:10]: {self.values[:10]}\n'
@@ -24,10 +24,15 @@ class TimeSeries:
     def __repr__(self) -> str:
         return f'TimeSeries(indicator={self.indicator}, station_code={self.station_code}, time_averaging={self.time_averaging}, date_list={self.date_list}, values={self.values}, unit={self.unit}\n)'
     
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: 'TimeSeries') -> bool:
         return self.indicator == other.indicator and self.station_code == other.station_code and self.time_averaging == other.time_averaging and self.unit == other.unit
     
-    def __getitem__(self, key):
+    def __getitem__(self, key: Union[int, slice, datetime, date]) -> Union[
+        Tuple[datetime, Optional[float]],
+        List[Tuple[datetime, Optional[float]]],
+        Optional[float],
+        List[Optional[float]]
+    ]:
         if isinstance(key, int):
             return (self.date_list[key], self.values[key])
         elif isinstance(key, slice):
@@ -49,11 +54,11 @@ class TimeSeries:
         
 
     @property
-    def mean(self):
+    def mean(self) -> Optional[float]:
         return np.nanmean(self.values) if self.values else None
     
     @property
-    def stddev(self):
+    def stddev(self) -> Optional[float]:
         return np.nanstd(self.values) if self.values else None
     
         

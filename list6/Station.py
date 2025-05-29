@@ -17,21 +17,21 @@ class Station:
                   town: Optional[str] = None, 
                   address: Optional[str] = None, 
                   coordinate_N: Optional[float] = None, 
-                  coordinate_E: Optional[float] = None):
-        self.code = code
-        self.international_code = international_code
-        self.name = name
-        self.old_code = old_code
-        self.open_date = open_date
-        self.close_date = close_date
-        self.station_type = station_type
-        self.area_type = area_type
-        self.kind = kind
-        self.voivodeship = voivodeship
-        self.town = town
-        self.address = address
-        self.coordinate_N = coordinate_N
-        self.coordinate_E = coordinate_E
+                  coordinate_E: Optional[float] = None) -> None:
+        self.code: str = code
+        self.international_code: Optional[str] = international_code
+        self.name: Optional[str] = name
+        self.old_code: Optional[str] = old_code
+        self.open_date: Optional[datetime] = open_date
+        self.close_date: Optional[datetime] = close_date
+        self.station_type: Optional[str] = station_type
+        self.area_type: Optional[str] = area_type
+        self.kind: Optional[str] = kind
+        self.voivodeship: Optional[str] = voivodeship
+        self.town: Optional[str] = town
+        self.address: Optional[str] = address
+        self.coordinate_N: Optional[float] = coordinate_N
+        self.coordinate_E: Optional[float] = coordinate_E
 
     def __str__(self) -> str:
         return f'Station:\ncode: {self.code}, name: {self.name}\nAddress: {self.voivodeship}, {self.town}, {self.address}\n'
