@@ -7,7 +7,7 @@ from SeriesValidator import *
 from SimpleReporter import SimpleReporter
 
 def main():
-    folder_path = "C:/Users/alicj/Documents/Studia/Python/scripting-languages/list5/measurements"
+    folder_path = "../list5/measurements"
     
     measurements = Measurements(folder_path)
     

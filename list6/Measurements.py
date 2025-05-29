@@ -1,8 +1,6 @@
 import os
 import csv
 from typing import List, Dict, Any, Union, Optional
-from datetime import datetime
-from collections import defaultdict
 from TimeSeries import TimeSeries
 from run_validators import parse_timeseries
 import pandas as pd
@@ -19,7 +17,7 @@ class Measurements:
             if filename.endswith(".csv"):
                 try:
                     year, param, freq  = filename[:-4].split('_')
-                    folder_path: str = './../list5/measurements'
+                    folder_path = './../list5/measurements'
                     full_path: str = os.path.join(folder_path, filename)
                     self._file_info.append({
                         "filename": filename,
@@ -37,14 +35,23 @@ class Measurements:
         print(filepath)
         try:    
             df: pd.DataFrame = pd.read_csv(filepath, quotechar='"', delimiter=',', encoding='utf-8', header=[1, 2, 3, 4, 5, 6])
-            date_list: List[str] = df.iloc[:, 0].values.tolist()
+            date_list_str: Union[List[Any], str] = df.iloc[:, 0].values.tolist()
             df = df.iloc[:, 1:]
-            headers: List[Optional[str]] = df.columns.tolist()
+            headers: List[str] = df.columns.tolist()
+
+            date_list: List[datetime] = []
+            date: str
+            for i, date in enumerate(date_list_str):
+                if isinstance(date, str):
+                    date_list[i] = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 
             for header in headers:
                 indicator: str = header[1]
                 station_code: str = header[0]
-                time_averaging: str = header[2]
+                time_averaging_str: str = header[2]
+
+                time_averaging: float = float(time_averaging_str)
+
                 unit: str = header[3]
                 df[header] = df[header].astype(float)
                 values: List[Optional[float]] = df[header].tolist()
@@ -79,9 +86,6 @@ class Measurements:
             if ts is not None and ts.station_code == station_code:
                 result.append(ts)
         return result
-
-    def load_series_for_file(self, filename: str) -> None:
-        self._loaded_series.append(self.parse_timeseries_from_one_file(filename))
 
     def detect_all_anomalies(self, validators: list[SeriesValidator], preload: bool = False) -> None:
         if preload:

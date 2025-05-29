@@ -1,6 +1,7 @@
 from TimeSeries import TimeSeries
 from SeriesValidator import SeriesValidator, OutlierDetector, ZeroSpikeDetector, ThresholdDetector
-from typing import List, Dict
+from typing import List, Dict, Union, Any
+from datetime import datetime
 import os
 import warnings
 import pandas as pd
@@ -14,14 +15,22 @@ def parse_timeseries(file_path: str):
                 filepath = os.path.join(file_path, filename)
 
                 df = pd.read_csv(filepath, quotechar='"', delimiter=',', encoding='utf-8', header=[1, 2, 3, 4, 5])
-                date_list = df.iloc[:, 0].values.tolist()
+                date_list_str: Union[List[Any], str] = df.iloc[:, 0].values.tolist()
                 df = df.iloc[:, 1:]
                 headers = df.columns.tolist()
+
+                i: int
+                date: str
+                date_list: List[datetime] = []
+                for i, date in enumerate(date_list_str):
+                    if isinstance(date, str):
+                        date_list[i] = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 
                 for header in headers:
                     indicator = header[1]
                     station_code = header[0]
-                    time_averaging = header[2]
+                    time_averaging_str: str = header[2]
+                    time_averaging: float = float(time_averaging_str)
                     unit = header[3]
                     df[header] = df[header].astype(float)
                     values = df[header].tolist()
@@ -41,7 +50,7 @@ def parse_timeseries(file_path: str):
 
 
 def run_validators(series: List[TimeSeries], validators: List[SeriesValidator]) -> Dict[str, List[str]]:
-    results = {}
+    results: Dict[str, List[str]] = {}
 
     for ts in series:
         if ts is not None:

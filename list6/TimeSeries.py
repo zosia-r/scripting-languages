@@ -24,7 +24,9 @@ class TimeSeries:
     def __repr__(self) -> str:
         return f'TimeSeries(indicator={self.indicator}, station_code={self.station_code}, time_averaging={self.time_averaging}, date_list={self.date_list}, values={self.values}, unit={self.unit}\n)'
     
-    def __eq__(self, other: 'TimeSeries') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TimeSeries):
+            return NotImplemented
         return self.indicator == other.indicator and self.station_code == other.station_code and self.time_averaging == other.time_averaging and self.unit == other.unit
     
     def __getitem__(self, key: Union[int, slice, datetime, date]) -> Union[
@@ -36,7 +38,7 @@ class TimeSeries:
         if isinstance(key, int):
             return (self.date_list[key], self.values[key])
         elif isinstance(key, slice):
-            return zip(self.date_list[key], self.values[key])
+            return list(zip(self.date_list[key], self.values[key]))
 
         elif isinstance(key, datetime) or isinstance(key, date):
             results = []
@@ -55,10 +57,12 @@ class TimeSeries:
 
     @property
     def mean(self) -> Optional[float]:
-        return np.nanmean(self.values) if self.values else None
+        cleaned_values: list[float] = [v for v in self.values if v is not None]
+        return float(np.mean(cleaned_values)) if self.values else None
     
     @property
     def stddev(self) -> Optional[float]:
-        return np.nanstd(self.values) if self.values else None
+        cleaned_values: list[float] = [v for v in self.values if v is not None]
+        return float(np.nanstd(cleaned_values)) if self.values else None
     
         
