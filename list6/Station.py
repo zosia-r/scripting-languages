@@ -5,7 +5,7 @@ class Station:
     
     def __init__ (self, 
                   code: str, 
-                  international_code: Optional[str], 
+                  international_code: Optional[str] = None, 
                   name: Optional[str] = None, 
                   old_code: Optional[str] = None, 
                   open_date: Optional[datetime] = None, 
@@ -40,6 +40,8 @@ class Station:
         return f'Station(code={self.code}, international_code={self.international_code}, name={self.name}, old_code={self.old_code}, open_date={self.open_date}, close_date={self.close_date}, station_type={self.station_type}, area_type={self.area_type}, kind={self.kind}, voivodeship={self.voivodeship}, town={self.town}, address={self.address}, coordinate_N={self.coordinate_N}, coordinate_E={self.coordinate_E})'
 
     def __eq__(self, other) -> bool:
+        if not isinstance(other, Station):
+            return False
         return self.code == other.code
 
 

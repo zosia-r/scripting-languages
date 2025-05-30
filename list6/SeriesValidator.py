@@ -34,7 +34,7 @@ class OutlierDetector(SeriesValidator):
                     if value is not None and abs(value - mean) > self.threshold * stddev:
                         messages.append(f'Outlier detected at {dt}: {value}')
 
-        return messages
+        return messages if messages else []
 
 
 class ZeroSpikeDetector(SeriesValidator):
@@ -57,7 +57,7 @@ class ZeroSpikeDetector(SeriesValidator):
                     else:
                         count = 0
 
-        return messages
+        return messages if messages else []
 
 
 class ThresholdDetector(SeriesValidator):
@@ -75,7 +75,7 @@ class ThresholdDetector(SeriesValidator):
                     if pair[1] is not None and pair[1] > self.threshold:
                         messages.append(f'Threshold of {self.threshold} exceeded at {pair[0]}: {pair[1]}')
 
-        return messages
+        return messages if messages else []
 
 
 class CompositeValidator(SeriesValidator):
@@ -109,11 +109,11 @@ class CompositeValidator(SeriesValidator):
         for sublist in all_messages[1:]:
             common &= set(sublist)
 
-        return list(common)
+        return list(common) if common else []
 
     def _get_all_messages(self, all_messages: List[List[str]]) -> List[str]:
         if not all_messages:
             return []
 
         flat_messages: List[str] = [item for sublist in all_messages for item in sublist]
-        return list(set(flat_messages))
+        return list(set(flat_messages)) if flat_messages else []
