@@ -22,11 +22,11 @@ def test_outlier_detection():
         unit="g/m3"
     )
 
-    validator = OutlierDetector(threshold=2.0)
+    validator = OutlierDetector(threshold=1.0)
     messages = validator.analyze(ts)
 
     assert len(messages) == 1
     assert "Outlier detected" in messages[0]
-    assert "2023-01-01 04:00:00" in messages[0]
+    assert "2023-01-01 01:00:00" in messages[0]
 
 

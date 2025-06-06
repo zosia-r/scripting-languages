@@ -110,4 +110,4 @@ class Measurements:
             else:
                 print("  - No anomalies detected.")
             print()
-        print("Validation complete.")
+        print("\nValidation complete.")
